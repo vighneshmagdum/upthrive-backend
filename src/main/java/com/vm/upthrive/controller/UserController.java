@@ -6,6 +6,7 @@ import com.vm.upthrive.dto.response.UserResponse;
 import com.vm.upthrive.service.interfaces.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,6 +34,7 @@ public class UserController {
         return userService.getUserById(id);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public String deleteUser(@PathVariable Long id){
         userService.deleteUserById(id);
