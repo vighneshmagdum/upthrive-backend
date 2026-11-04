@@ -1,0 +1,1 @@
+"""UpThrive API application."""

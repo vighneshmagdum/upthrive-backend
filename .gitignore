@@ -31,3 +31,12 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# UpThrive services
+.env
+.next/
+node_modules/
+__pycache__/
+*.py[cod]
+.venv/
+dist/
