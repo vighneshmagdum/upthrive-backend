@@ -3,6 +3,7 @@ services:
     name: upthrive
     runtime: docker
     plan: free
+    region: singapore
     branch: codex/upthrive-fullstack-fastapi-nextjs
     dockerfilePath: ./Dockerfile.render
     dockerContext: .
@@ -18,3 +19,4 @@ services:
         sync: false
       - key: CORS_ORIGINS
         value: ""
+
