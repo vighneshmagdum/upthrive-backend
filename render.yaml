@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: upthrive
+    runtime: docker
+    plan: free
+    branch: codex/upthrive-fullstack-fastapi-nextjs
+    dockerfilePath: ./Dockerfile.render
+    dockerContext: .
+    healthCheckPath: /api/v1/health/live
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: AUTH_COOKIE_SECURE
+        value: "true"
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DATABASE_URL
+        sync: false
+      - key: CORS_ORIGINS
+        value: ""

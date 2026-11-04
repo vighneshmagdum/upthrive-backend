@@ -1,6 +1,6 @@
 from functools import lru_cache
 
-from pydantic import Field
+from pydantic import Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -23,6 +23,16 @@ class Settings(BaseSettings):
     auth_cookie_secure: bool | None = None
     auth_cookie_domain: str | None = None
     cors_origins: str = "http://localhost:3000"
+    web_static_dir: str | None = None
+
+    @field_validator("database_url", mode="before")
+    @classmethod
+    def use_psycopg_driver(cls, value: object) -> object:
+        if isinstance(value, str) and value.startswith(("postgres://", "postgresql://")):
+            return value.replace("postgres://", "postgresql+psycopg://", 1).replace(
+                "postgresql://", "postgresql+psycopg://", 1
+            )
+        return value
 
     @property
     def cookie_secure(self) -> bool:

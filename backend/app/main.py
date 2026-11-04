@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from app.api.routes import auth, health, recommendations, users
 from app.core.config import settings
@@ -26,3 +27,6 @@ app.include_router(auth.router, prefix=settings.api_prefix)
 app.include_router(users.router, prefix=settings.api_prefix)
 app.include_router(recommendations.router, prefix=settings.api_prefix)
 app.include_router(health.router, prefix=settings.api_prefix)
+
+if settings.web_static_dir:
+    app.mount("/", StaticFiles(directory=settings.web_static_dir, html=True), name="web")

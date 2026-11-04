@@ -15,6 +15,14 @@ The compose stack starts PostgreSQL, runs Alembic migrations before FastAPI, sta
 
 The local values in .env.example are for development only. Do not deploy them publicly.
 
+## Free hosted demo (Render + Neon)
+
+The `render.yaml` Blueprint deploys the Next.js dashboard and FastAPI API together as one Render web service. The frontend is built as a static export and FastAPI serves it on the same origin, so browser API calls and the HttpOnly authentication cookies stay same-origin. PostgreSQL is hosted separately on Neon so database files do not live on Render's ephemeral service disk.
+
+To deploy, create a Neon PostgreSQL project, copy its pooled connection string, and create a Render Blueprint from the `codex/upthrive-fullstack-fastapi-nextjs` branch. Set the Blueprint's `DATABASE_URL` to the Neon connection string; Render generates `JWT_SECRET`. Keep `AUTH_COOKIE_SECURE=true` for the HTTPS service. The app runs Alembic migrations before starting FastAPI.
+
+Render's free web service can sleep after inactivity, so the first request after a quiet period may take longer. Neon free-tier limits and availability can change; check the provider's current plan before relying on a demo for production data.
+
 ## Services
 
 | Service | Path | Responsibility |
@@ -63,3 +71,4 @@ uvicorn app.main:app --reload
 ```
 
 Run the dashboard separately from frontend with npm install and npm run dev. Set API_INTERNAL_URL=http://localhost:8000 so the Next.js rewrite forwards /api/* requests to FastAPI.
+
